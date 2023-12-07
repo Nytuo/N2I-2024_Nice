@@ -197,6 +197,11 @@ export default class Tetris {
     gameLoop() {
         this.move("down");
 
+        if (this._isVictory()) {
+            this._victory();
+            return;
+        }
+
         if (this._isGameOver()) {
             this._gameOver();
             return;
@@ -209,6 +214,13 @@ export default class Tetris {
         document.querySelector("#score").innerHTML = `Score: ${this.score}`;
 
         setTimeout(() => this.gameLoop(), this.speed);
+    }
+
+    _isVictory() {
+        if (this.score >= 404) {
+            return true;
+        }
+        return false;
     }
 
     _isGameOver() {
@@ -226,9 +238,17 @@ export default class Tetris {
     _gameOver() {
         const main = document.querySelector("#game");
 
-        main.innerHTML = `<div class='game-over'><h1>Game Over!</h1><button onclick='window.location.reload()'>Restart</button></div>`;
+        main.innerHTML = `<div class='game-over'><h1>Game Over!</h1><button onclick='window.location.reload()'>Waste my time again  </button></div>`;
 
         throw new Error("Game Over! (This is not a bug, this is a feature)");
+    }
+
+    _victory() {
+        const main = document.querySelector("#game");
+
+        main.innerHTML = `<div class='victory'><h1>Congrats! You Win! But you lost your time...</h1><button onclick='window.location.reload()'>Waste my time again</button></div>`;
+
+        throw new Error("You Win! (This is not a bug, this is a feature)");
     }
 
     render() {
